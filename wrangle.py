@@ -32,9 +32,23 @@ def wrangle_zillow():
     # Drop all rows with any Null values, assign to df, and verify.
     df = df.dropna()
 
+    #Create the tax rate for each property and add it to the dataframe
+    df['tax_rate'] = df.taxamount / df.taxvaluedollarcnt
+
+    #Create a new column identifying the county for each property and add it to the dataframe
+    counties = [
+    (df['fips'] == 6037),
+    (df['fips'] == 6059),
+    (df['fips'] == 6111)
+    ]
+
+    county_values = ['Los Angeles', 'Orange', 'Ventura']
+
+    df['county'] = np.select(counties, county_values)
+
     #Remove outliers
     df = remove_outliers(df, 2.0, ['calculatedfinishedsquarefeet',
-       'taxvaluedollarcnt', 'taxamount','bedroomcnt', 'bathroomcnt'] )
+       'taxvaluedollarcnt', 'taxamount','bedroomcnt', 'bathroomcnt', 'tax_rate'] )
 
     # Rename
     df = df.rename(columns = { 'bedroomcnt':'bedrooms', 
@@ -162,7 +176,7 @@ def get_hist(df):
     plt.figure(figsize=(16, 3))
 
     # List of columns
-    cols = [col for col in df.columns if col not in ['fips', 'year_built', 'propertylandusetypeid', 'propertylandusedesc']]
+    cols = [col for col in df.columns if col not in ['fips', 'year_built', 'propertylandusetypeid', 'propertylandusedesc','tax_rate','county']]
 
     for i, col in enumerate(cols):
 
