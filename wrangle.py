@@ -26,6 +26,9 @@ def wrangle_zillow():
     #Use acquire.py to pull data from the Zillow database using a SQL query, create a local csv pandas, and return a pandas DataFrame
     df = acquire.get_zillow_data()
 
+    # Drop duplicates
+    df =  df.drop_duplicates()
+
     # Drop all rows with any Null values, assign to df, and verify.
     df = df.dropna()
 
@@ -159,7 +162,7 @@ def get_hist(df):
     plt.figure(figsize=(16, 3))
 
     # List of columns
-    cols = [col for col in df.columns if col not in ['fips', 'year_built']]
+    cols = [col for col in df.columns if col not in ['fips', 'year_built', 'propertylandusetypeid', 'propertylandusedesc']]
 
     for i, col in enumerate(cols):
 

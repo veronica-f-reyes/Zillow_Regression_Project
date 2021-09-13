@@ -95,25 +95,17 @@ ACQUIRE:
 --------
     Call the acquire.py file to run the functions to obtain Zillow data using a SQL query from the Codeup Data Science Database: zillow
     It returns a pandas dataframe.  The SQL query joins two tables and filters on single family properties that were listed between May 1, 2017 to August 31, 2017.
+    The data is filtering to return single unit properties defined within the propertylandusetypeid of codes: 261- Single Family Residential, 262 - Rural Residence, 
+    263 - Mobile Home, 264 - Townhouse, 265 - Cluster Home, 266 - Condominium, and 279 - Inferred Single Family Residential.   
+
     The SQL query that is run is shown below:
                 '''
-                SELECT bedroomcnt, bathroomcnt, calculatedfinishedsquarefeet, taxvaluedollarcnt, yearbuilt, taxamount, fips
+                 SELECT bedroomcnt, bathroomcnt, calculatedfinishedsquarefeet, taxvaluedollarcnt, yearbuilt, taxamount, fips
                 FROM properties_2017
                 JOIN predictions_2017 USING (id)
-                WHERE propertylandusetypeid = 261
+                WHERE propertylandusetypeid IN ('261','262','263','264','265','266','279') 
                 AND transactiondate BETWEEN '2017-05-01' AND '2017-08-31'
                 '''
-
-
-Acquire
-
-Goal: leave this section with a dataframe ready to prepare.
-
-Think about the following in this stage:
-
-The ad hoc part includes summarizing your data as you read it in and begin to explore, look at the first few rows, data types, summary stats, column names, shape of the data frame, etc.
-
-Create an acquire.py file the reproducible component for gathering data from a database using SQL and reading it into a pandas DataFrame.
 
 
 PREPARE:
