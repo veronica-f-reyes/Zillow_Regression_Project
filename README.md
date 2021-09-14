@@ -6,16 +6,12 @@ GOALS:
 - Predict the values of single unit properties based on transaction data from May 1, 2017 through August 31, 2017.
 - Identify the county & state where the properties are located in addition to the distribution of property tax rates
 
-PLANNING:
----------
-PLAN -> Acquire -> Prepare -> Explore -> Model & Evaluate -> Deliver
 
-See my Trello board here --> https://trello.com/b/jr0Z3ktQ/zillow-regression-project-board
 
-Working through the data science pipeline, we will acquire data using an acquire.py file which pulls data from the Zillow database using SQL and joins 3 tables.
-We will prepare the data using the wrangle.py file which will get rid of unneeded columns, rename columns and create columns for county, state and tax rates.
-Then we will explore the data by looking for possible relationships between features and look at how they are distribute by creating plots and looking at the data.
-Next we will create hypothesis and models. We will then compare the models that were run on training data to validate data before running our model on the test data.   We will then present the findings in a verbal presentation using slides.  
+KEY FINDINGS & TAKEAWAYS:
+-------------------------
+
+
 
 DATA DICTIONARY:
 ----------------
@@ -39,28 +35,6 @@ DATA DICTIONARY:
 |  state                  |35078 non-null:  object | State the property is located in|              |
 
 
-KEY FINDINGS & TAKEAWAYS:
--------------------------
-
-
-
-HOW TO RECREATE THIS PROJECT:
-----------------------------
-
-To recreate this project you will need the following files from this repository:
-- README.md
-- acquire.py
-- prepare.py
-- explore.py
-- Final_Notebook.ipynb
-
-You will also need your own env file with your data base credentials to connect to the SQL database containing Zillow data 
-
-Instructions:
-- Read the README.md
-- Download the aquire.py, prepare.py, explore.py and Final_Notebook.ipynb files into your working directory, or clone this repository
-- Add your own env file to your directory (user, password, host)  
-- Run the Final_Notebook.ipynb 
 
 
 DATA SCIENCE PIPELINE:
@@ -69,17 +43,15 @@ DATA SCIENCE PIPELINE:
 PLAN:
 -----
 
-Project Planning
+PLAN -> Acquire -> Prepare -> Explore -> Model & Evaluate -> Deliver
 
-Goal: leave this section with (at least the outline of) a plan for the project documented in your README.md file.
+See my Trello board here --> https://trello.com/b/jr0Z3ktQ/zillow-regression-project-board
 
-Think about the following in this stage:
+Working through the data science pipeline, we will acquire data using an acquire.py file which pulls data from the Zillow database using SQL and joins 3 tables.
+We will prepare the data using the wrangle.py file which will get rid of unneeded columns, rename columns and create columns for county, state and tax rates.
+Then we will explore the data by looking for possible relationships between features and look at how they are distribute by creating plots and looking at the data.
+Next we will create hypothesis and models. We will then compare the models that were run on training data to validate data before running our model on the test data.   We will then present the findings in a verbal presentation using slides.  
 
-Brainstorming ideas and form hypotheses related to how variables might impact or relate to each other, both within independent variables and between the independent variables and dependent variable.
-
-Document any ideas for new features you may have while first looking at the existing variables and the project goals ahead of you.
-
-Think about what things in your project are nice to have, versus which things are need to have. For example, you might document that you will only worry about trying to scale your features after creating and evaluating a baseline model.
 
 
 ACQUIRE:
@@ -192,6 +164,23 @@ DELIVER:
 - A github repository containing your work with any .py files required to acquire and prepare the data and a clearly labeled final Jupyter Notebook that walks through the pipeline.
 
 
+HOW TO RECREATE THIS PROJECT:
+----------------------------
+
+To recreate this project you will need the following files from this repository:
+- README.md
+- acquire.py
+- prepare.py
+- explore.py
+- Final_Notebook.ipynb
+
+You will also need your own env file with your data base credentials to connect to the SQL database containing Zillow data 
+
+Instructions:
+- Read the README.md
+- Download the aquire.py, prepare.py, explore.py and Final_Notebook.ipynb files into your working directory, or clone this repository
+- Add your own env file to your directory (user, password, host)  
+- Run the Final_Notebook.ipynb 
 
 
 
