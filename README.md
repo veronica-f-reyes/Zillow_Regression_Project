@@ -1,16 +1,30 @@
 # README for  Zillow Regression Project
-# -------------------------------------
 
 GOALS:
 -----
 - Predict the values of single unit properties based on transaction data from May 1, 2017 through August 31, 2017.
 - Identify the county & state where the properties are located in addition to the distribution of property tax rates
 
-
-
 KEY FINDINGS & TAKEAWAYS:
 -------------------------
+ Modeling Takeaways:
 
+- Polynomial Regression Model performed better than the baseline by having a lower RMSE than the baseline
+- The model explained 35.6% of the variance on out of sample data very similar to our validate dataset. 
+
+ Location & Tax Rates Takeaways:
+- All properties are located in the state of California
+- All properties are located in one of 3 counties:
+    - Los Angeles County
+    - Orange County
+    - Ventura County
+    
+- The max tax rate was 0.01885 was located in Orange County
+- The mix tax rate was 0.00622 was located in Orange County
+- The highest average tax rate was in Los Angeles County with an average of 0.013054
+- The lowest average tax rate was Ventura County with an average of  0.011513
+- The highest number of properties were located in Los Angeles County with 21,469 properties
+- The lowest number of properties were located in Ventura County with 3,189 properties
 
 
 DATA DICTIONARY:
@@ -158,7 +172,7 @@ DELIVER:
 
 - Present a report in the form of verbally supported slides.
 
-    The report/presentation slides should summarize your findings about the drivers of the single unit property values. This will come from the analysis you do during the exploration phase of the pipeline. In the report, you should have visualizations that support your main points.
+    The report/presentation slides should summarize findings about the drivers of the single unit property values. 
 
 
 - A github repository containing your work with any .py files required to acquire and prepare the data and a clearly labeled final Jupyter Notebook that walks through the pipeline.
@@ -172,15 +186,15 @@ To recreate this project you will need the following files from this repository:
 - acquire.py
 - prepare.py
 - explore.py
-- Final_Notebook.ipynb
+- final_zillow_regression_project.ipynb
 
 You will also need your own env file with your data base credentials to connect to the SQL database containing Zillow data 
 
 Instructions:
 - Read the README.md
-- Download the aquire.py, prepare.py, explore.py and Final_Notebook.ipynb files into your working directory, or clone this repository
+- Download the aquire.py, prepare.py, explore.py and final_zillow_regression_project.ipynb files into your working directory, or clone this repository
 - Add your own env file to your directory (user, password, host)  
-- Run the Final_Notebook.ipynb 
+- Run the final_zillow_regression_project.ipynb 
 
 
 
