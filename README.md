@@ -10,42 +10,33 @@ PLANNING:
 ---------
 PLAN -> Acquire -> Prepare -> Explore -> Model & Evaluate -> Deliver
 
-Working through the data science pipeline, we will acquire data using an acquire.py file which pulls data from the Zillow database using SQL and joins 2 tables.
-We will prepare the data using a prepare.py file which will get rid of unneeded columns, encode string values to 0s and 1s and create dummies.
+See my Trello board here --> https://trello.com/b/jr0Z3ktQ/zillow-regression-project-board
+
+Working through the data science pipeline, we will acquire data using an acquire.py file which pulls data from the Zillow database using SQL and joins 3 tables.
+We will prepare the data using the wrangle.py file which will get rid of unneeded columns, rename columns and create columns for county, state and tax rates.
 Then we will explore the data by looking for possible relationships between features and look at how they are distribute by creating plots and looking at the data.
-Next we will create models using . We will then compare the models that were run on training data to validate data before running our model on the test data to get the .  We will then present the findings in a verbal presentation using slides.  
+Next we will create hypothesis and models. We will then compare the models that were run on training data to validate data before running our model on the test data.   We will then present the findings in a verbal presentation using slides.  
 
 DATA DICTIONARY:
 ----------------
 
 |Target|Datatype|Definition|
 |:-------|:--------|:----------|
-| taxvaluedollarcnt                  | 7043 non-null: object| value of the property in dollars  |              |
+| tax_value                  | |35078 non-null:: float| value of the property in dollars  |              |
 
 |Feature|Datatype|Definition|
 |:-------|:--------|:----------|
-| bedroomcnt            | 7043 non-null: object| number of bedrooms |              |
-| bathroomcnt                 | 7043 non-null: object| number of bathrooms  |              |
-| calculatedfinishedsquarefeet      | 7043 non-null: int64 | square footage of the building  |              |            |
-| taxamount            | 7043 non-null: object| amount of taxes owed  |              ||              |
-| fips                   | 7043 non-null: int64|unique ID for location of county   |              |
-
-
-| phone_service            | 7043 non-null: object | Type of phone service plan a customer has|              |
-| multiple_lines           | 7043 non-null: object |indicates whether customer has multiple lines - yes or no|              |
-| internet_service_type_id | 7043 non-null: int64|type of internet service customer has -  1 for DSL, 2 for Fiber Optic, 3 for None   |              |
-| online_security          | 7043 non-null: object|indicates whether customer has online security - yes, no or no internet service  |              |
-| online_backup            | 7043 non-null: object |indicates whether customer has an online backup -  yes, no, or no internet service  |              |
-| device_protection        | 7043 non-null: object|indicates whether customer has device protection - yes, no, or no internet service  |              |
-| tech_support             | 7043 non-null: object|indicates whether customer has tech support - yes, no, or no internet service  |              |
-| streaming_tv             | 7043 non-null: object| |indicates whether customer has streaming tv - yes, no, or no internet service  |              |
-| streaming_movies         | 7043 non-null: object| |indicates whether customer has device protection - yes, no, or no internet service  |              |
-| contract_type_id         | 7043 non-null: int64| contract term of the customer  - month-to-month, one year, wo year)   |              |
-| paperless_billing        | 7043 non-null: object|indicates whether customer has paperless billing - yes or no  |              |
-| payment_type_id          | 7043 non-null: int64| customer payment method - 1 for electronic check, 2 for mailed check, 3 for automatic bank transfer, 4 for automatic credit card payment   |              |
-| monthly_charges          | 7043 non-null: float64| amount charged to customer monthly  |              |
-| total_charges            | 7043 non-null: object| Total amount customer has paid  |              |
-***
+|   bedrooms               |35078 non-null:  float64| number of bedrooms |              |
+|   bathrooms              |35078 non-null:  float64| number of bathrooms  |              |
+|   sq_footage             |35078 non-null:  float64| square footage of the building  |              |            |
+|   yr_built               |35078 non-null:  float64| year property was built
+|   taxamount              |35078 non-null:  float64| tax amount due for that property  |              ||              |
+|   fips                   |35078 non-null:  float64| unique ID for location of county   |              |
+|   propertylandusetypeid  |35078 non-null:  float64| unique ID use to identify property type (i.e. 261 - Single Family Residential)|              |
+|   propertylandusedesc    |35078 non-null:  object | Description of property type (i.e. Condominium, Townhome, Single Family Residential)|              |
+|   tax_rate               |35078 non-null:  float64| Tax rate for that property|              |
+|  county                 |35078 non-null:  object | County the property is located in|              |
+|  state                  |35078 non-null:  object | State the property is located in|              |
 
 
 KEY FINDINGS & TAKEAWAYS:
@@ -93,57 +84,72 @@ Think about what things in your project are nice to have, versus which things ar
 
 ACQUIRE:
 --------
-    Call the acquire.py file to run the functions to obtain Zillow data using a SQL query from the Codeup Data Science Database: zillow
+    Call the acquire.py file within the wrangle.py to run the functions to obtain Zillow data using a SQL query from the Codeup Data Science Database: zillow
     It returns a pandas dataframe.  The SQL query joins two tables and filters on single family properties that were listed between May 1, 2017 to August 31, 2017.
     The data is filtering to return single unit properties defined within the propertylandusetypeid of codes: 261- Single Family Residential, 262 - Rural Residence, 
     263 - Mobile Home, 264 - Townhouse, 265 - Cluster Home, 266 - Condominium, and 279 - Inferred Single Family Residential.   
 
     The SQL query that is run is shown below:
                 '''
-                 SELECT bedroomcnt, bathroomcnt, calculatedfinishedsquarefeet, taxvaluedollarcnt, yearbuilt, taxamount, fips
+                 SELECT bedroomcnt, bathroomcnt, calculatedfinishedsquarefeet, taxvaluedollarcnt, yearbuilt, taxamount, fips, propertylandusetypeid, propertylandusedesc
                 FROM properties_2017
-                JOIN predictions_2017 USING (id)
+                LEFT JOIN predictions_2017 USING (parcelid)
+                LEFT JOIN propertylandusetype USING (propertylandusetypeid)
                 WHERE propertylandusetypeid IN ('261','262','263','264','265','266','279') 
-                AND transactiondate BETWEEN '2017-05-01' AND '2017-08-31'
+                AND transactiondate BETWEEN '2017-05-01' AND '2017-08-31';  
                 '''
 
 
 PREPARE:
 --------
-Prep
+Prepped and cleaned the acquired data in the wrangle.py file.  Used functions within the wrangle.py to accomplish the following:
 
-Goal: leave this section with a dataset that is split into train, validate, and test ready to be analyzed. Make sure data types are appropriate and missing values have been addressed, as have any data integrity issues.
-
-Think about the following in this stage:
-
-This might include plotting the distributions of individual variables and using those plots to identify and decide how best to handle any outliers.
-
-You might also identify unit measures to decide how best to scale any numeric data as you see necessary.
-
-Identify erroneous or invalid data that may exist in your dataframe.
-
-Add a data dictionary in your notebook at this point that defines all the fields used in your model and your analysis and answers the question, "Why did you use the fields you used?". e.g. "Why did you use bedroom_field1 over bedroom_field2?", not, "Why did you use number of bedrooms?"
-
-Create a prep.pyfile as the reproducible component that handles missing values, fixes data integrity issues, changes data types, scales data, etc.
+- Nulls & duplicates were removed
+- Columns were renamed for easier use & readability
+- Outliers were removed per function using Interquartile Range (IQR) to find outliers for
+- A column named tax_rate was created by dividing taxamount and taxvaluedollarcnt
+- A column named county was created to name the county where the property is located (derived from fips code)
+- A column named state was created to name the state where the property is located (derived from fips code)
+- A prepped dataframe containing 35,078 entries and 12 columns
+- Split data into train, validate and test datasets.
 
 EXPLORE:
 --------
+Visualize combinations of variables to compare relationships between variables.
+    - Price seems to have a correlation to square footage, number of bedrooms, number of bathrooms, fips, and year built.
 
-Goal: I recommend following the exploration approach of univariate, bivariate, multivariate discussed in class. In that method, you can address each of the questions you posed in your planning and brainstorming and any others you have come up with along the way through visual exploration and statistical analysis. The findings from your analysis should provide you with answers to the specific questions your customer asked that will be used in your final report as well as information to move forward toward building a model.
+Hypothesis 1:
 
-Think about the following in this stage:
+Null Hypothesis: Mean price for single family residential <= Mean of all single unit properties
+Alternative Hypothesis: Mean price for single family residential > Mean of monthly charges of all customers
 
-Run at least 1 t-test and 1 correlation test (but as many as you need!)
+Finding: 
 
-Visualize all combinations of variables in some way(s).
+    - We reject the null hypothesis that the mean price for single family residential <= Mean of all single unit properties
 
-What independent variables are correlated with the dependent?
+Hypothesis 2:
 
-Which independent variables are correlated with other independent variables?
+Null Hypothesis: There is no correlation between the square footage and price.
+Alternative Hypothesis: Square footage and price are correlated
 
-Make sure to summarize your takeaways and conclusions. That is, the Zillow data science team doesn't want to see just a bunch of dataframes, numbers, and charts without any explanation; you should explain in the notebook what these mean, interpret them.
+Finding: 
+    - We reject the null hypothesis that there is no correlation between the square footage and price.
 
-In exploration, you should perform your analysis including the use of at least two statistical tests along with visualizations documenting hypotheses and takeaways.
+Hypothesis 3:
+
+Null Hypothesis: There is no correlation between number of bedrooms and location (fips).
+Alternative Hypothesis: Number of bedrooms and location (fips) are correlated.
+
+Finding: 
+    - We reject the null hypothesis that there is no correlation between number of bedrooms and location (fips).
+
+Hypothesis 4:
+
+Null Hypothesis: There is no correlation between number of bathrooms and price .
+Alternative Hypothesis: Number of bedrooms and price.
+
+Finding: 
+    - We reject the null hypothesis that there is no correlation between number of bathrooms and price .
 
 MODEL:
 ------
@@ -159,11 +165,7 @@ Extablishing and evaluating a baseline model and showing how the model you end u
 Documenting various algorithms and/or hyperparameters you tried along with the evaluation code and results in your notebook before settling on the best algorithm.
 
 Evaluating your model using the standard techniques: plotting the residuals, computing the evaluation metrics (SSE, RMSE, and/or MSE), comparing to baseline, plotting 
-y
- by 
-^
-y
-.
+y by ^y.
 
 For some additional options see sklearn's linear models and sklearn's page on supervised learning.
 
