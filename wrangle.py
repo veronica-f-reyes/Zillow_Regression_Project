@@ -46,8 +46,10 @@ def wrangle_zillow():
 
     df['county'] = np.select(counties, county_values)
 
+    df['state'] = 'California'
+
     #Remove outliers
-    df = remove_outliers(df, 2.0, ['calculatedfinishedsquarefeet',
+    df = remove_outliers(df, 2.99, ['calculatedfinishedsquarefeet',
        'taxvaluedollarcnt', 'taxamount','bedroomcnt', 'bathroomcnt', 'tax_rate'] )
 
     # Rename
@@ -61,6 +63,10 @@ def wrangle_zillow():
 # get distributions of numeric data
     get_hist(df)
    # get_box(df)
+
+
+    # Write that dataframe to disk for later. Called "caching" the data for later.
+    df.to_csv('zillow_prepped.csv')
 
 # Return the dataframe to the calling code
     return df
@@ -176,7 +182,7 @@ def get_hist(df):
     plt.figure(figsize=(16, 3))
 
     # List of columns
-    cols = [col for col in df.columns if col not in ['fips', 'year_built', 'propertylandusetypeid', 'propertylandusedesc','tax_rate','county']]
+    cols = [col for col in df.columns if col not in ['fips', 'year_built', 'propertylandusetypeid', 'propertylandusedesc','tax_rate','county','state']]
 
     for i, col in enumerate(cols):
 

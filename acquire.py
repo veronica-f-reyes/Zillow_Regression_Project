@@ -37,7 +37,7 @@ def get_zillow_data():
         query = '''
                 SELECT bedroomcnt, bathroomcnt, calculatedfinishedsquarefeet, taxvaluedollarcnt, yearbuilt, taxamount, fips, propertylandusetypeid, propertylandusedesc
                 FROM properties_2017
-                LEFT JOIN predictions_2017 USING (id)
+                LEFT JOIN predictions_2017 USING (parcelid)
                 LEFT JOIN propertylandusetype USING (propertylandusetypeid)
                 WHERE propertylandusetypeid IN ('261','262','263','264','265','266','279') 
                 AND transactiondate BETWEEN '2017-05-01' AND '2017-08-31';     
