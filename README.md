@@ -9,7 +9,7 @@ KEY FINDINGS & TAKEAWAYS:
 -------------------------
  Modeling Takeaways:
 
-- Polynomial Regression Model performed better than the baseline by having a lower RMSE than the baseline
+- Polynomial Regression Model performed better than the baseline by having a l Ir RMSE than the baseline.
 - The model explained 35.6% of the variance on out of sample data very similar to our validate dataset. 
 
  Location & Tax Rates Takeaways:
@@ -22,9 +22,9 @@ KEY FINDINGS & TAKEAWAYS:
 - The max tax rate was 0.01885 was located in Orange County
 - The mix tax rate was 0.00622 was located in Orange County
 - The highest average tax rate was in Los Angeles County with an average of 0.013054
-- The lowest average tax rate was Ventura County with an average of  0.011513
-- The highest number of properties were located in Los Angeles County with 21,469 properties
-- The lowest number of properties were located in Ventura County with 3,189 properties
+- The l Ist average tax rate was Ventura County with an average of  0.011513
+- The highest number of properties I located in Los Angeles County with 21,469 properties
+- The l Ist number of properties I located in Ventura County with 3,189 properties
 
 
 DATA DICTIONARY:
@@ -51,7 +51,7 @@ DATA DICTIONARY:
 
 
 
-DATA SCIENCE PIPELINE:
+DATA SCIENCE PIPELINE
 ----------------------
 
 PLAN:
@@ -61,19 +61,18 @@ PLAN -> Acquire -> Prepare -> Explore -> Model & Evaluate -> Deliver
 
 See my Trello board here --> https://trello.com/b/jr0Z3ktQ/zillow-regression-project-board
 
-Working through the data science pipeline, we will acquire data using an acquire.py file which pulls data from the Zillow database using SQL and joins 3 tables.
-We will prepare the data using the wrangle.py file which will get rid of unneeded columns, rename columns and create columns for county, state and tax rates.
-Then we will explore the data by looking for possible relationships between features and look at how they are distribute by creating plots and looking at the data.
-Next we will create hypothesis and models. We will then compare the models that were run on training data to validate data before running our model on the test data.   We will then present the findings in a verbal presentation using slides.  
+Working through the data science pipeline, I will acquire data using an acquire.py file which pulls data from the Zillow database using SQL and joins 3 tables. I will prepare the data using the wrangle.py file which will get rid of unneeded columns, rename columns and create columns for county, state and tax rates.
+Then I will explore the data by looking for possible relationships between features and look at how they are distribute by creating plots and looking at the data.
+Next I will create hypothesis and models. I will then compare the models that I ran on training data to validate data before running our model on the test data.   I will then present the findings in a verbal presentation using slides.  
 
 
 
 ACQUIRE:
 --------
-    Call the acquire.py file within the wrangle.py to run the functions to obtain Zillow data using a SQL query from the Codeup Data Science Database: zillow
-    It returns a pandas dataframe.  The SQL query joins two tables and filters on single family properties that were listed between May 1, 2017 to August 31, 2017.
-    The data is filtering to return single unit properties defined within the propertylandusetypeid of codes: 261- Single Family Residential, 262 - Rural Residence, 
-    263 - Mobile Home, 264 - Townhouse, 265 - Cluster Home, 266 - Condominium, and 279 - Inferred Single Family Residential.   
+Call the acquire.py file within the wrangle.py to run the functions to obtain Zillow data using a SQL query from the Codeup Data Science Database: zillow
+It returns a pandas dataframe.  The SQL query joins two tables and filters on single family properties that I listed between May 1, 2017 to August 31, 2017.
+The data is filtering to return single unit properties defined within the propertylandusetypeid of codes: 261- Single Family Residential, 262 - Rural Residence, 
+263 - Mobile Home, 264 - Townhouse, 265 - Cluster Home, 266 - Condominium, and 279 - Inferred Single Family Residential.   
 
     The SQL query that is run is shown below:
                 '''
@@ -82,7 +81,7 @@ ACQUIRE:
                 LEFT JOIN predictions_2017 USING (parcelid)
                 LEFT JOIN propertylandusetype USING (propertylandusetypeid)
                 WHERE propertylandusetypeid IN ('261','262','263','264','265','266','279') 
-                AND transactiondate BETWEEN '2017-05-01' AND '2017-08-31';  
+                AND transactiondate BE IEN '2017-05-01' AND '2017-08-31';  
                 '''
 
 
@@ -140,32 +139,16 @@ Finding:
 MODEL:
 ------
 
-Modeling
+The goal is to develop a regression model that performs better than the baseline.
 
-Goal: develop a regression model that performs better than a baseline.
+Predicted all prices to be $418,560.92, which is equal to the mean of tax_value for the training sample.
+Predicted all final prices to be $359,073.00, which is equal to the median of tax_value for the training sample. 
+Computed the RMSE comparing actual final price (tax_value) to price_pred_mean.
+Computed the RMSE comparing actual final grade (tax_value) to price_pred_median
 
-Think about the following in this stage:
 
-Extablishing and evaluating a baseline model and showing how the model you end up with performs better.
-
-Documenting various algorithms and/or hyperparameters you tried along with the evaluation code and results in your notebook before settling on the best algorithm.
-
-Evaluating your model using the standard techniques: plotting the residuals, computing the evaluation metrics (SSE, RMSE, and/or MSE), comparing to baseline, plotting 
-y by ^y.
-
-For some additional options see sklearn's linear models and sklearn's page on supervised learning.
-
-After developing a baseline model, you could do some feature engineering and answer questions like:
-
-Which features should be included in your model?
-
-Are there new features you could create based on existing features that might be helpful?
-
-Are there any features that aren't adding much value?
-
-Here you could also use automated feature selection techniques to determine which features to put into your model.
-
-In modeling, you should establish a baseline that you attempt to beat with various algorithms and/or hyperparameters. Evaluate your model by computing the metrics and comparing.
+Polynomial Regression Model performed better than the baseline by having a l Ir RMSE than the baseline
+The model explained 35.6% of the variance on out of sample data very similar to our validate dataset.
 
 DELIVER:
 -------
